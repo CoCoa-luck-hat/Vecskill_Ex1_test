@@ -5,7 +5,7 @@ export const useAlertStore = defineStore('alert', () => {
   const show = ref(false)
   const message = ref('')
   const title = ref('')
-  const type = ref('success') // 'success' | 'error' | 'warning' | 'info'
+  const type = ref('success')
   const timeout = ref(4000)
   let timerId = null
 

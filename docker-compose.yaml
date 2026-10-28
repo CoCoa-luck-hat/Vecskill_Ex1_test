@@ -1,5 +1,4 @@
 services:
-  # 1. MySQL Database Service
   db:
     image: mysql:8.0
     container_name: ex2_mysql_db
@@ -20,7 +19,6 @@ services:
       retries: 10
       start_period: 10s
 
-  # 2. Backend Application Service
   backend:
     container_name: ex2_backend
     build:
@@ -44,7 +42,6 @@ services:
       db:
         condition: service_healthy
 
-  # 3. Frontend Web Service
   frontend:
     container_name: ex2_frontend
     build:

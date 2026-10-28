@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- หัวข้อและปุ่มเพิ่มผู้ใช้ -->
     <div class="d-flex justify-space-between align-center mb-4 flex-wrap ga-2">
       <div>
         <h1 class="text-h5 font-weight-bold">จัดการผู้ใช้งานในระบบ</h1>
@@ -16,7 +15,6 @@
       </v-btn>
     </div>
 
-    <!-- กล่องค้นหาและกรองตามบทบาท -->
     <v-card class="pa-3 mb-4 rounded-lg elevation-1">
       <v-row density="compact" align="center">
         <v-col cols="12" sm="6">
@@ -49,7 +47,6 @@
       </v-row>
     </v-card>
 
-    <!-- ตารางรายชื่อผู้ใช้งาน -->
     <v-card rounded="lg" elevation="1" class="overflow-hidden">
       <v-table hover>
         <thead>
@@ -79,10 +76,8 @@
               </v-chip>
             </td>
             <td class="text-center">
-              <!-- แก้ไข -->
               <v-btn icon="mdi-pencil" size="small" variant="text" color="warning" title="แก้ไข" @click="openEditDialog(user)"></v-btn>
 
-              <!-- ลบ (ป้องกันไม่ให้ลบตัวเอง) -->
               <v-btn
                 v-if="user.id !== authStore.user?.id"
                 icon="mdi-delete"
@@ -98,7 +93,6 @@
       </v-table>
     </v-card>
 
-    <!-- Modal 1: สร้าง / แก้ไขผู้ใช้ (User Form Dialog) -->
     <v-dialog v-model="formDialog" max-width="500" persistent>
       <v-card class="rounded-xl pa-2">
         <v-card-title class="font-weight-bold d-flex align-center ga-2">
@@ -124,30 +118,25 @@
               required
             ></v-text-field>
 
-            <v-row dense>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.email"
-                  label="อีเมล"
-                  type="email"
-                  variant="outlined"
-                  density="comfortable"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.phone"
-                  label="เบอร์โทรศัพท์"
-                  variant="outlined"
-                  density="comfortable"
-                ></v-text-field>
-              </v-col>
-            </v-row>
+            <v-text-field
+              v-model="form.email"
+              label="อีเมล"
+              type="email"
+              variant="outlined"
+              density="comfortable"
+            ></v-text-field>
+
+            <v-text-field
+              v-model="form.phone"
+              label="เบอร์โทรศัพท์"
+              variant="outlined"
+              density="comfortable"
+            ></v-text-field>
 
             <v-select
               v-model="form.role"
               :items="roleOptions"
-              label="บทบาทในระบบ *"
+              label="บทบาท (Role) *"
               variant="outlined"
               density="comfortable"
               required
@@ -155,7 +144,7 @@
 
             <v-text-field
               v-model="form.password"
-              :label="isEditing ? 'รหัสผ่านใหม่ (เว้นว่างไว้หากไม่ต้องการเปลี่ยน)' : 'รหัสผ่าน (Password) *'"
+              :label="isEditing ? 'รหัสผ่านใหม่ (เว้นว่างหากไม่ต้องการเปลี่ยน)' : 'รหัสผ่าน *'"
               type="password"
               variant="outlined"
               density="comfortable"
@@ -166,13 +155,12 @@
         <v-card-actions class="pa-4 justify-end">
           <v-btn variant="plain" @click="formDialog = false">ยกเลิก</v-btn>
           <v-btn color="primary" variant="flat" :loading="saving" @click="submitForm">
-            {{ isEditing ? 'บันทึกการแก้ไข' : 'สร้างผู้ใช้' }}
+            {{ isEditing ? 'บันทึกการแก้ไข' : 'บันทึกผู้ใช้' }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <!-- Modal 2: ยืนยันการลบผู้ใช้ (Delete Dialog) -->
     <v-dialog v-model="deleteDialog" max-width="450">
       <v-card class="rounded-xl pa-2">
         <v-card-title class="font-weight-bold d-flex align-center ga-2 text-error">
@@ -202,14 +190,12 @@ import api from '../services/api.js'
 const authStore = useAuthStore()
 const alertStore = useAlertStore()
 
-// State
 const users = ref([])
 const loading = ref(false)
 const saving = ref(false)
 const search = ref('')
 const roleFilter = ref('all')
 
-// Dialogs
 const formDialog = ref(false)
 const deleteDialog = ref(false)
 const isEditing = ref(false)

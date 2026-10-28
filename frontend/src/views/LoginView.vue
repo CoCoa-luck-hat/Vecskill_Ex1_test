@@ -1,7 +1,6 @@
 <template>
   <div class="d-flex align-center justify-center min-vh-100 pa-4" style="min-height: 100vh; background: linear-gradient(135deg, #EEF2F6 0%, #E2E8F0 100%);">
     <v-card width="100%" max-width="480" class="elevation-4 rounded-xl pa-4 bg-surface">
-      <!-- Header -->
       <div class="text-center py-4">
         <v-avatar color="primary" size="60" class="mb-3 elevation-2">
           <v-icon icon="mdi-wrench-check" size="34" color="white"></v-icon>
@@ -10,13 +9,11 @@
         <p class="text-body-2 text-medium-emphasis">Equipment Repair Request Management (Ex2)</p>
       </div>
 
-      <!-- Tab Switcher -->
       <v-tabs v-model="tab" color="primary" grow class="mb-4">
         <v-tab value="login" prepend-icon="mdi-login">เข้าสู่ระบบ</v-tab>
         <v-tab value="register" prepend-icon="mdi-account-plus">ลงทะเบียน</v-tab>
       </v-tabs>
 
-      <!-- Alert Messages -->
       <v-alert v-if="errorMsg" type="error" variant="tonal" closable class="mb-3" @click:close="errorMsg = ''">
         {{ errorMsg }}
       </v-alert>
@@ -25,7 +22,6 @@
       </v-alert>
 
       <v-window v-model="tab">
-        <!-- 1. Login Tab -->
         <v-window-item value="login">
           <v-form @submit.prevent="handleLogin" class="d-flex flex-column ga-3">
             <v-text-field
@@ -60,7 +56,6 @@
               เข้าสู่ระบบ
             </v-btn>
 
-            <!-- Quick Demo Chips -->
             <div class="mt-4 pt-3 border-t text-center">
               <div class="text-caption text-medium-emphasis mb-2 font-weight-bold">
                 คลิกทดสอบเข้าสู่ระบบตามบทบาท:
@@ -81,7 +76,6 @@
           </v-form>
         </v-window-item>
 
-        <!-- 2. Register Tab -->
         <v-window-item value="register">
           <v-form @submit.prevent="handleRegister" class="d-flex flex-column ga-3">
             <v-text-field

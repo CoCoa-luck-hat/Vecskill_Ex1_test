@@ -57,7 +57,6 @@ export const useAuthStore = defineStore('auth', {
             role: decoded.role,
             email: decoded.email
           }
-          // Refresh profile from backend
           const res = await api.get('/auth/me').catch(() => null)
           if (res?.data?.user) {
             this.user = res.data.user

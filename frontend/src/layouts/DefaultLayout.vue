@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- เมนูด้านข้าง (Navigation Drawer) -->
     <v-navigation-drawer v-model="drawer">
       <div class="pa-4 d-flex align-center ga-3 border-b">
         <v-avatar :style="{ background: authStore.roleTheme.primary }" size="40">
@@ -29,7 +28,6 @@
         ></v-list-item>
       </v-list>
 
-      <!-- ส่วนท้ายแถบเมนู: ข้อมูลผู้ใช้ และปุ่ม Logout -->
       <template #append>
         <div class="pa-4 border-t bg-grey-lighten-5">
           <div class="d-flex align-center ga-3 mb-3">
@@ -64,7 +62,6 @@
       </template>
     </v-navigation-drawer>
 
-    <!-- แถบด้านบน (App Bar) มีเฉดสี Gradient ตามแต่ละ Role -->
     <v-app-bar
       elevation="2"
       class="text-white"
@@ -80,7 +77,6 @@
       </v-chip>
     </v-app-bar>
 
-    <!-- พื้นที่แสดงเนื้อหาหลัก พร้อมสีพื้นหลัง Tint เปลี่ยนตามแต่ละ Role -->
     <v-main :style="{ backgroundColor: authStore.roleTheme.bgTint, minHeight: '100vh', transition: 'background-color 0.3s ease' }">
       <v-container fluid class="pa-4 pa-md-6" style="max-width: 1400px;">
         <slot />

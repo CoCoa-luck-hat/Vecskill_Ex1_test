@@ -34,22 +34,18 @@ const router = createRouter({
   routes
 })
 
-// Route Guards
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
   authStore.initAuth()
 
-  // 1. If route requires login and user is not authenticated
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     return next({ name: 'login' })
   }
 
-  // 2. If route is guest-only and user is already logged in
   if (to.meta.guestOnly && authStore.isAuthenticated) {
     return next({ name: 'repairs' })
   }
 
-  // 3. If route requires specific roles
   if (to.meta.roles && !to.meta.roles.includes(authStore.user?.role)) {
     return next({ name: 'repairs' })
   }

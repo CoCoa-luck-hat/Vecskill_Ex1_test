@@ -3,7 +3,6 @@
     <component :is="layout">
       <router-view />
     </component>
-    <!-- Global Action Notification with Alert Component -->
     <AppAlert />
   </v-app>
 </template>
@@ -31,7 +30,6 @@ const layout = computed(() => {
 </script>
 
 <style>
-/* Global scrollbar and font polish */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

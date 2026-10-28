@@ -1,5 +1,4 @@
 services:
-  # 1. MySQL Database Service (Production)
   db:
     image: mysql:8.0
     container_name: repair_db_prod
@@ -20,7 +19,6 @@ services:
       retries: 10
       start_period: 10s
 
-  # 2. Backend Service (Production)
   backend:
     container_name: repair_backend_prod
     build:
@@ -37,7 +35,6 @@ services:
       db:
         condition: service_healthy
 
-  # 3. Frontend Web Service with Nginx (Production)
   frontend:
     container_name: repair_frontend_prod
     build:

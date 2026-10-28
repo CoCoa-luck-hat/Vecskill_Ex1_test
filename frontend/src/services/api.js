@@ -5,7 +5,6 @@ const api = axios.create({
   timeout: 15000
 })
 
-// Request Interceptor: Attach JWT Token automatically
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('auth_token')
@@ -19,7 +18,6 @@ api.interceptors.request.use(
   }
 )
 
-// Response Interceptor: Handle 401 Unauthorized / Token Expiry
 api.interceptors.response.use(
   (response) => {
     return response.data

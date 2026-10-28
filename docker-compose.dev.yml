@@ -1,5 +1,4 @@
 services:
-  # 1. MySQL Database Service (Dev)
   db:
     image: mysql:8.0
     container_name: repair_db_dev
@@ -20,7 +19,6 @@ services:
       retries: 10
       start_period: 10s
 
-  # 2. Backend Service with Hot-Reload (Dev)
   backend:
     container_name: repair_backend_dev
     build:
@@ -40,7 +38,6 @@ services:
       db:
         condition: service_healthy
 
-  # 3. Frontend Service with Vite Hot-Reload (Dev)
   frontend:
     container_name: repair_frontend_dev
     image: node:20-alpine

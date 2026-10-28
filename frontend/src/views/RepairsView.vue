@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Header & Action Button -->
     <div class="d-flex justify-space-between align-center mb-4 flex-wrap ga-2">
       <div>
         <h1 class="text-h5 font-weight-bold">ระบบแจ้งซ่อมอุปกรณ์</h1>
@@ -17,7 +16,6 @@
       </v-btn>
     </div>
 
-    <!-- 1. Stats Summary Cards -->
     <v-row class="mb-4" dense>
       <v-col cols="6" sm="4" md="2" v-for="card in statCards" :key="card.title">
         <v-card class="pa-3 rounded-lg elevation-1" :color="card.color" variant="tonal">
@@ -32,7 +30,6 @@
       </v-col>
     </v-row>
 
-    <!-- 2. Search & Filter Bar -->
     <v-card class="pa-3 mb-4 rounded-lg elevation-1">
       <v-row density="compact" align="center">
         <v-col cols="12" sm="6">
@@ -65,7 +62,6 @@
       </v-row>
     </v-card>
 
-    <!-- 3. Repairs Data Table -->
     <v-card rounded="lg" elevation="1" class="overflow-hidden">
       <v-table hover>
         <thead>
@@ -74,8 +70,8 @@
             <th class="font-weight-bold">อุปกรณ์ / รูปภาพ</th>
             <th class="font-weight-bold">รายละเอียดอาการเสีย</th>
             <th class="font-weight-bold text-center">สถานะ</th>
-            <th class="font-weight-bold">ผู้แจ้ง / ช่างซ่อม</th>
-            <th class="font-weight-bold text-center" style="width: 170px;">จัดการ</th>
+            <th class="font-weight-bold">ผู้แจ้ง / ช่าง</th>
+            <th class="font-weight-bold text-center">จัดการ</th>
           </tr>
         </thead>
         <tbody>
@@ -120,10 +116,8 @@
               </div>
             </td>
             <td class="text-center">
-              <!-- ดูรายละเอียด -->
               <v-btn icon="mdi-eye" size="small" variant="text" color="primary" title="ดูรายละเอียด" @click="openDetailDialog(item)"></v-btn>
 
-              <!-- แก้ไข (เจ้าของเมื่อ pending หรือ Admin) -->
               <v-btn
                 v-if="canEdit(item)"
                 icon="mdi-pencil"
@@ -134,7 +128,6 @@
                 @click="openEditDialog(item)"
               ></v-btn>
 
-              <!-- ช่าง หรือ แอดมิน เปลี่ยนสถานะ -->
               <v-btn
                 v-if="authStore.isTechnician || authStore.isAdmin"
                 icon="mdi-wrench"
@@ -145,7 +138,6 @@
                 @click="openStatusDialog(item)"
               ></v-btn>
 
-              <!-- ลบรายการ -->
               <v-btn
                 v-if="canDelete(item)"
                 icon="mdi-delete"
@@ -161,7 +153,6 @@
       </v-table>
     </v-card>
 
-    <!-- Modal 1: แจ้งซ่อม / แก้ไข (Form Dialog) -->
     <v-dialog v-model="formDialog" max-width="600" persistent>
       <v-card class="rounded-xl pa-2">
         <v-card-title class="font-weight-bold d-flex align-center ga-2">
@@ -206,7 +197,6 @@
       </v-card>
     </v-dialog>
 
-    <!-- Modal 2: ดูรายละเอียดงานซ่อม (Detail Dialog) -->
     <v-dialog v-model="detailDialog" max-width="700">
       <v-card class="rounded-xl pa-2" v-if="selectedItem">
         <v-card-title class="d-flex justify-space-between align-center border-b pb-3">
@@ -236,7 +226,6 @@
             </v-col>
           </v-row>
 
-          <!-- ภาพถ่ายก่อนซ่อมและหลังซ่อม -->
           <v-divider class="my-4"></v-divider>
           <div class="text-subtitle-2 font-weight-bold mb-2">รูปภาพประกอบ</div>
           <v-row dense>
@@ -259,7 +248,6 @@
       </v-card>
     </v-dialog>
 
-    <!-- Modal 3: ช่าง/แอดมิน อัปเดตสถานะ (Status Dialog) -->
     <v-dialog v-model="statusDialog" max-width="600" persistent>
       <v-card class="rounded-xl pa-2">
         <v-card-title class="font-weight-bold d-flex align-center ga-2">
@@ -322,7 +310,6 @@
       </v-card>
     </v-dialog>
 
-    <!-- Modal 4: ยืนยันการลบ (Delete Dialog) -->
     <v-dialog v-model="deleteDialog" max-width="450">
       <v-card class="rounded-xl pa-2">
         <v-card-title class="font-weight-bold d-flex align-center ga-2 text-error">
@@ -353,12 +340,10 @@ const authStore = useAuthStore()
 const repairStore = useRepairStore()
 const alertStore = useAlertStore()
 
-// State
 const search = ref('')
 const statusFilter = ref('all')
 const saving = ref(false)
 
-// Dialog visibility
 const formDialog = ref(false)
 const detailDialog = ref(false)
 const statusDialog = ref(false)
@@ -367,7 +352,6 @@ const deleteDialog = ref(false)
 const isEditing = ref(false)
 const selectedItem = ref(null)
 
-// Forms
 const form = ref({
   equipment_name: '',
   description: ''
@@ -382,7 +366,6 @@ const statusForm = ref({
 })
 const statusFile = ref(null)
 
-// Options & Status Mappings
 const statusOptions = [
   { title: 'ทั้งหมด', value: 'all' },
   { title: 'รอดำเนินการ', value: 'pending' },
@@ -424,7 +407,6 @@ const statusLabel = (s) => {
   return map[s] || s
 }
 
-// Stats Cards data
 const statCards = computed(() => [
   { title: 'คำขอทั้งหมด', value: repairStore.stats.total || 0, color: 'primary', icon: 'mdi-clipboard-list' },
   { title: 'รอดำเนินการ', value: repairStore.stats.pending || 0, color: 'warning', icon: 'mdi-clock-outline' },
@@ -441,7 +423,6 @@ const technicianSelectItems = computed(() => {
   }))
 })
 
-// Permissions
 const canEdit = (item) => {
   if (authStore.isAdmin) return true
   return authStore.isUser && item.user_id === authStore.user?.id && item.status === 'pending'
@@ -452,7 +433,6 @@ const canDelete = (item) => {
   return authStore.isUser && item.user_id === authStore.user?.id && item.status === 'pending'
 }
 
-// Methods
 const loadData = async () => {
   await Promise.all([
     repairStore.fetchRepairs({ search: search.value, status: statusFilter.value }),
@@ -465,7 +445,6 @@ const loadRepairs = () => {
   repairStore.fetchRepairs({ search: search.value, status: statusFilter.value })
 }
 
-// Handlers
 const openCreateDialog = () => {
   isEditing.value = false
   form.value = {
@@ -509,7 +488,6 @@ const openDeleteDialog = (item) => {
   deleteDialog.value = true
 }
 
-// Submit Form (Create / Edit)
 const submitForm = async () => {
   if (!form.value.equipment_name) {
     alertStore.error('กรุณาระบุชื่ออุปกรณ์')
@@ -542,7 +520,6 @@ const submitForm = async () => {
   }
 }
 
-// Submit Status Update
 const submitStatus = async () => {
   saving.value = true
   try {
@@ -568,7 +545,6 @@ const submitStatus = async () => {
   }
 }
 
-// Submit Delete
 const submitDelete = async () => {
   saving.value = true
   try {
