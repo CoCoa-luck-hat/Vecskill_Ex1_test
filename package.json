@@ -1,0 +1,14 @@
+{
+  "name": "repair-system-ex2",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Equipment Repair Request System V2 (Vue 3 + Vuetify & Node.js Express + MySQL)",
+  "scripts": {
+    "start:backend": "npm --prefix backend start",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "db:up": "docker compose up -d db",
+    "db:down": "docker compose down"
+  }
+}

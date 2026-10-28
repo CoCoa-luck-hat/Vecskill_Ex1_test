@@ -1,0 +1,56 @@
+services:
+  # 1. MySQL Database Service (Production)
+  db:
+    image: mysql:8.0
+    container_name: repair_db_prod
+    restart: unless-stopped
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=repair_system
+    volumes:
+      - mysql_prod_data:/var/lib/mysql
+      - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  # 2. Backend Service (Production)
+  backend:
+    container_name: repair_backend_prod
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env.prod
+    volumes:
+      - backend_prod_uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # 3. Frontend Web Service with Nginx (Production)
+  frontend:
+    container_name: repair_frontend_prod
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_prod_data:
+    driver: local
+  backend_prod_uploads:
+    driver: local
